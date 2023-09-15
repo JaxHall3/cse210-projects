@@ -1,7 +1,7 @@
 # cse210-student-template
 This is starter code for students in CSE 210.
 
-Student name: Jaxon HallRe
+Student name: Jaxon Hall
 
 This repository contains the starter code for many different projects. They are arranged as follows:
 

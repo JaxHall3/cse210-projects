@@ -1,17 +1,16 @@
 public class Transaction
 {
-    // Attributes
     protected double amount;
     protected string reference;
+    protected string category;
 
-    // Constructor
-    public Transaction(double amount, string reference)
+    public Transaction(double amount, string reference = "", string category = "")
     {
         this.amount = amount;
         this.reference = reference;
+        this.category = category.ToLower();
     }
 
-    // Getters
     public double GetAmount()
     {
         return amount;
@@ -20,5 +19,10 @@ public class Transaction
     public string GetReference()
     {
         return reference;
+    }
+
+    public string GetCategory()
+    {
+        return category;
     }
 }

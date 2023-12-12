@@ -21,6 +21,11 @@ public class Category
         return name.ToUpper();
     }
 
+    public string GetReference()
+    {
+        return name;
+    }
+
     public double GetLimit()
     {
         return limit;

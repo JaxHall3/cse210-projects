@@ -22,17 +22,22 @@ public class Report
 
         foreach (Transaction transaction in transactions)
         {
-            string sign = (transaction.GetAmount() >= 0) ? "+" : "-";
-            Console.WriteLine($"  {sign} {Math.Abs(transaction.GetAmount()):C} ({transaction.GetReference()})");
+            string sign = (transaction is Income) ? "+" : "-";
+            if (transaction is Expense)
+            {
+                sign = "-";
+            }
+
+            Console.WriteLine($" {sign} {(transaction.GetAmount()):C} ({transaction.GetCategory()})");
         }
 
         double total = CalculateTotal();
         string totalSign = (total >= 0) ? "+" : "-";
-        Console.WriteLine($"Total: {totalSign} {Math.Abs(total):C}");
+        Console.WriteLine($"Total: {totalSign} {(total):C}");
 
         if (total < 0)
         {
-            Console.WriteLine("You are negative this month. Change goals/make adjustments.");
+            Console.WriteLine("Warning!: You are negative this month. Change goals/make adjustments.");
         }
         else
         {
@@ -42,10 +47,36 @@ public class Report
         Console.WriteLine("--------------------------------");
     }
 
+    public void RemoveTransaction(Transaction transactionToRemove)
+    {
+    Transaction transaction = transactions.FirstOrDefault(t =>
+        t is Transaction && t.GetReference().Equals(transactionToRemove.GetReference(), StringComparison.OrdinalIgnoreCase));
+
+    if (transaction != null)
+    {
+        transactions.Remove(transaction);
+        Console.WriteLine($"Transaction '{transaction.GetReference()}' removed successfully!");
+    }
+    else
+    {
+        Console.WriteLine($"Transaction '{transactionToRemove.GetReference()}' not found in the report.");
+    }
+    }
+
     private double CalculateTotal()
     {
         double totalIncome = transactions.OfType<Income>().Sum(income => income.GetAmount());
         double totalExpense = transactions.OfType<Expense>().Sum(expense => expense.GetAmount());
         return totalIncome - totalExpense;
+    }
+
+    public List<Income> GetIncomes()
+    {
+        return transactions.OfType<Income>().ToList();
+    }
+
+    public List<Expense> GetExpenses()
+    {
+        return transactions.OfType<Expense>().ToList();
     }
 }

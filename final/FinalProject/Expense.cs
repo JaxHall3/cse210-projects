@@ -1,16 +1,6 @@
 public class Expense : Transaction
 {
-    private string category;
-
-    // Constructor
-    public Expense(double amount, string reference, string category)
-        : base(amount, reference)
+    public Expense(double amount, string reference = "", string category = "") : base(amount, reference, category)
     {
-        this.category = category.ToLower();
-    }
-
-    public string GetCategory()
-    {
-        return category;
     }
 }

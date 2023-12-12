@@ -1,15 +1,14 @@
 public class Income : Transaction
 {
-    private string category;
+    private new string category;
 
     // Constructor
-    public Income(double amount, string reference, string category)
-        : base(amount, reference)
+    public Income(double amount, string reference, string category) : base(amount, reference, category)
     {
         this.category = category.ToLower();
     }
 
-    public string GetCategory()
+    public new string GetCategory()
     {
         return category;
     }

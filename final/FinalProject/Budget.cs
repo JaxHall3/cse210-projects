@@ -7,6 +7,11 @@ public class Budget
         categories = new List<Category>();
     }
 
+    public List<Category> GetCategories()
+    {
+        return categories;
+    }
+
     public void AddCategory(string name, double limit)
     {
         Category category = new Category(name, limit);

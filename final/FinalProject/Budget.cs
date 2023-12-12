@@ -1,33 +1,61 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 public class Budget
 {
-    private List<Income> incomes;
-    private List<Expense> expenses;
+    private List<Category> categories;
 
     public Budget()
     {
-        incomes = new List<Income>();
-        expenses = new List<Expense>();
+        categories = new List<Category>();
     }
 
-    public void AddIncome(Income income)
+    public void AddCategory(string name, double limit)
     {
-        incomes.Add(income);
+        Category category = new Category(name, limit);
+        categories.Add(category);
+    }
+
+    public void RemoveCategory(string name)
+    {
+        Category categoryToRemove = categories.FirstOrDefault(cat => cat.GetName().Equals(name, StringComparison.OrdinalIgnoreCase));
+
+        if (categoryToRemove != null)
+        {
+            categories.Remove(categoryToRemove);
+            Console.WriteLine($"Budget category '{name}' removed successfully!");
+        }
+        else
+        {
+            Console.WriteLine($"Budget category '{name}' not found.");
+        }
     }
 
     public void AddExpense(Expense expense)
     {
-        expenses.Add(expense);
+        GetCategory(expense.GetCategory())?.AddTransaction(expense);
     }
 
-    public decimal CalculateBudgetSummary()
+    public void AddIncome(Income income)
     {
-        decimal incomeSummary = incomes.Sum(income => income.CalculateSummary());
-        decimal expenseSummary = expenses.Sum(expense => expense.CalculateSummary());
+        GetCategory(income.GetCategory())?.AddTransaction(income);
+    }
 
-        return incomeSummary + expenseSummary;
+    public void DisplayBudget()
+    {
+        Console.WriteLine("-------- Monthly Budget --------");
+
+        foreach (Category category in categories)
+        {
+            double goal = category.GetLimit();
+            double spent = category.GetTotalExpense();
+            double remainingBudget = category.GetRemainingBudget();
+
+            Console.WriteLine($"{category.GetName()}: Goal: {goal:C}, Spent: {spent:C}, Remaining: {remainingBudget:C}");
+        }
+
+        Console.WriteLine("--------------------------------");
+    }
+
+    private Category GetCategory(string name)
+    {
+        return categories.FirstOrDefault(cat => cat.GetName().Equals(name, StringComparison.OrdinalIgnoreCase));
     }
 }

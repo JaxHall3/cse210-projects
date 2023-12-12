@@ -1,9 +1,16 @@
 public class Expense : Transaction
 {
-    public string Category { get; set; }
+    private string category;
 
-    public override decimal CalculateSummary()
+    // Constructor
+    public Expense(double amount, string reference, string category)
+        : base(amount, reference)
     {
-        return -Amount;
+        this.category = category.ToLower();
+    }
+
+    public string GetCategory()
+    {
+        return category;
     }
 }

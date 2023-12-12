@@ -1,7 +1,16 @@
 public class Income : Transaction
 {
-    public override decimal CalculateSummary()
+    private string category;
+
+    // Constructor
+    public Income(double amount, string reference, string category)
+        : base(amount, reference)
     {
-        return Amount;
+        this.category = category.ToLower();
+    }
+
+    public string GetCategory()
+    {
+        return category;
     }
 }

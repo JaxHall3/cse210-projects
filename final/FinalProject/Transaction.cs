@@ -1,13 +1,24 @@
-using System;
-
 public class Transaction
 {
-    public decimal Amount { get; set; }
-    public DateTime Date { get; set; }
-    public string Description { get; set; }
+    // Attributes
+    protected double amount;
+    protected string reference;
 
-    public virtual decimal CalculateSummary()
+    // Constructor
+    public Transaction(double amount, string reference)
     {
-        return Amount;
+        this.amount = amount;
+        this.reference = reference;
+    }
+
+    // Getters
+    public double GetAmount()
+    {
+        return amount;
+    }
+
+    public string GetReference()
+    {
+        return reference;
     }
 }
